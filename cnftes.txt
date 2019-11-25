@@ -1,7 +1,3 @@
-C_new -> C D_new
-D_new -> D E
-A -> ABC DEF | B C_new | Y Z
-ABC -> G
-G -> K L | M N_new
-N_new -> N O_new
-O_new -> O P
+A -> B
+B -> C
+C -> A

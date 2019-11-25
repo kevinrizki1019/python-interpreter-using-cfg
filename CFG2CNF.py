@@ -1,3 +1,12 @@
+terminalfile = open("terminal.txt", "r")
+terminaltemp = terminalfile.readlines()
+terminalfile.close()
+
+terminal = []
+for line in terminaltemp:
+    linenew = line.replace("\n", "")
+    terminal.append(linenew)
+
 def read_cfg_file(filename):
     # Membaca file grammar dalam bentuk production rule A -> B C D 
     # dan mengubahnya menjadi bentuk ['A', 'B', 'C', 'D']
@@ -35,6 +44,7 @@ def read_cfg_file(filename):
 
 def convert_large_rules(grammar):
     # Menangani production rule yang berbentuk A -> BCD menjadi A -> BX dan X -> CD
+    addition = 1
     for rule in grammar:
         rule_index = grammar.index(rule) + 1
         if (len(rule) - 1) > 2:
@@ -43,22 +53,33 @@ def convert_large_rules(grammar):
                 new_rule.append(rule[i])
             for j in range(2, len(rule)):
                 rule.pop()
-            new_nonterm = new_rule[0] + "_new"
+            new_nonterm = new_rule[0] + "_deriv"
+            for checkrule in grammar:
+                if checkrule[0] == new_nonterm:
+                    new_nonterm += "{}".format(addition)
+                    addition += 1
+                    break
             rule.append(new_nonterm)
             new_rule.insert(0, new_nonterm)
-            grammar.insert(rule_index, new_rule)
+            if new_rule not in grammar:
+                grammar.insert(rule_index, new_rule)
 
 def convert_unit_productions(grammar):
     # Menangani grammar yang memiliki unit production, yaitu A -> B
     # grammar is an array consisting of lines of array
-    for rule in grammar:
-        if (len(rule) == 2):
-            unit_production = rule[1]
+    j = 0
+    while j < len(grammar):
+        if ((len(grammar[j]) == 2) and (grammar[j][1] not in terminal)):
+            unit_production = grammar[j][1]
             idxs_unit_production = search_rule(grammar, unit_production)
             for i in idxs_unit_production:
-                grammar[i][0] = rule[0]
-            grammar.remove(rule)
-            
+                new_rule = []
+                for termnonterm in grammar[i]:
+                    new_rule.append(termnonterm)
+                new_rule[0] = grammar[j][0]
+                grammar.insert(j + 1, grammar[i])
+            grammar.remove(grammar[j])
+        j += 1
 
 
 def search_rule(grammar, rule_nonterm):
@@ -82,6 +103,7 @@ def write_to_file(grammar):
                     for i in range(1, len(line)):
                         rule.append(line[i])
                     grammar.remove(line)
+            
 
 
     filename = raw_input("Enter the output file name: ")
@@ -103,6 +125,8 @@ def convert_grammar(filename):
     
     convert_unit_productions(grammar)
     convert_large_rules(grammar)
+    # for rule in grammar:
+    #     print(rule)
     write_to_file(grammar)
 
 filename = raw_input("Enter the Context Free Grammar file to convert: ")

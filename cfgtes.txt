@@ -1,4 +1,3 @@
-A -> B C D E | Y Z | ABC DEF
-ABC -> F
-F -> G
-G -> K L | M N O P
+A -> B F
+C -> F | M A
+F -> X Z | Y Z
