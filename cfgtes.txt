@@ -1,0 +1,4 @@
+A -> B C D E | Y Z | ABC DEF
+ABC -> F
+F -> G
+G -> K L | M N O P

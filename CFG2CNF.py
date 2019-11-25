@@ -1,4 +1,6 @@
 def read_cfg_file(filename):
+    # Membaca file grammar dalam bentuk production rule A -> B C D 
+    # dan mengubahnya menjadi bentuk ['A', 'B', 'C', 'D']
     file = open(filename, 'r')
     filelines = file.readlines()
     file.close()
@@ -10,11 +12,12 @@ def read_cfg_file(filename):
         grammar.append(rule)
 
     for rule in grammar:
-        # Memisahkan rule yang berbentuk X -> Y | Z
+        # Memisahkan rule yang berbentuk X -> Y | Z menjadi X -> Y dan X -> Z
         try:
             or_idx = rule.index("|")
 
         except ValueError:
+            # Apabila sebuah nonterminal tidak mengandung 2 production rule yang berbeda
             or_idx = -1
 
         if (or_idx != -1):
@@ -31,8 +34,7 @@ def read_cfg_file(filename):
     # return [x.replace("->", "").split() for x in filelines]
 
 def convert_large_rules(grammar):
-    # Menangani grammar yang berbentuk A -> BCD menjadi A -> BX dan X -> CD
-    # grammar is an array consisting of lines of array
+    # Menangani production rule yang berbentuk A -> BCD menjadi A -> BX dan X -> CD
     for rule in grammar:
         rule_index = grammar.index(rule) + 1
         if (len(rule) - 1) > 2:
@@ -69,6 +71,29 @@ def search_rule(grammar, rule_nonterm):
 
     return idx_rule
 
+def write_to_file(grammar):
+    # Menuliskan grammar dalam bentuk A -> B C dalam file .txt
+
+    for rule in grammar:
+        for line in grammar:
+            if rule[0] == line[0] :
+                if (grammar.index(rule) != grammar.index(line)):
+                    rule.append("|")
+                    for i in range(1, len(line)):
+                        rule.append(line[i])
+                    grammar.remove(line)
+
+
+    filename = raw_input("Enter the output file name: ")
+    file = open(filename, 'w')
+    for rule in grammar:
+        file.write(rule[0])
+        file.write(" ->")
+        for i in range(1, len(rule)):
+            file.write(" {}".format(rule[i]))
+        file.write("\n")
+    file.close()
+
 
 def convert_grammar(filename):
     grammar = read_cfg_file(filename)
@@ -78,12 +103,8 @@ def convert_grammar(filename):
     
     convert_unit_productions(grammar)
     convert_large_rules(grammar)
-    for rule in grammar:
-        print(rule)
+    write_to_file(grammar)
 
+filename = raw_input("Enter the Context Free Grammar file to convert: ")
+convert_grammar(filename)
 
-# grammar = read_cfg_file('tes.txt')
-# for rule in grammar:
-#     print(rule)
-
-convert_grammar('tes.txt')

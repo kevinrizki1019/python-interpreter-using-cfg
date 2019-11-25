@@ -1,3 +1,0 @@
-A -> B C D E | Y Z
-F -> G
-G -> K L | M N O P
