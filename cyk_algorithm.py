@@ -45,16 +45,31 @@ def read_input_text(input_name):
 
     return input_list
 
+def token_to_object(token):
+    # Object yang dimaksud disini adalah antara num, undef, atau word
+    number = ['0','1','2','3','4','5','6','7','8','9']
+    valid_variable_prefix = ['a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','I','j','J','k','K','l','L','m','M','n','N','o','O','p','P','q','Q','r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z','Z','_']
+    if token[0] not in valid_variable_prefix:
+        if token[0] in number:
+            for char in token[1:len(token)]:
+                if char != '1' and char != '2' and char != '3' and char != '4' and char != '5' and char != '6' and char != '7' and char != '8' and char != '9'  and char != '0':
+                    return "undef" # kasus kalo ada nama variabel yang diawali dengan angka
+            return "num"
+        else:
+            return "undef"
+    return "word"
+
 def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     # Pengetesan sebuah input string dengan algoritma CYK
     parse_table = None
 
     # print(terminal_list)
-    for i in input_list:
-        if i not in terminal_list:
-            idx = input_list.index(i)
-            input_list.insert(idx, 'word')
-            input_list.remove(i)
+    for token in input_list:
+        if token not in terminal_list:
+            idx = input_list.index(token)
+            result = token_to_object(token)
+            input_list.insert(idx, result)
+            input_list.remove(token)
 
     # Inisiasi input_list dan parse_table
     length = len(input_list)
@@ -73,9 +88,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
             if  rule[1] == token:    
                 exist = True
                 parse_table[0][i].append(rule[0])
-        if not exist:
-            parse_table[0][i].append('WORD')
 
+    print()
 
     # print(parse_table)
 
