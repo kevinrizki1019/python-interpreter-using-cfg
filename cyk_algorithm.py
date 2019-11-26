@@ -99,6 +99,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                             input_list.remove(input_list[idx])
                 else:
                     break
+
+    input_list.remove('endline')
         
 
 
