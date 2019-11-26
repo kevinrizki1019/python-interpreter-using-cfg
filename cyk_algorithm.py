@@ -4,22 +4,40 @@ CYK Algorithm to testing whether a string is a membership of a CFL L
 from CFG2CNF import read_grammar
 from CFG2CNF import read_terminal
 
+def separate_blank_from_terminal(input_file_lines):
+    input_list_temp = []
+
+    for line in input_file_lines:
+        linenew = line.replace('(',' ( ')
+        linenew = linenew.replace(')',' ) ')
+        linenew = linenew.replace(':',' : ')
+        linenew = linenew.replace('-',' - ')
+        linenew = linenew.replace('+',' + ')
+        linenew = linenew.replace('*',' * ')
+        linenew = linenew.replace('/',' / ')
+        linenew = linenew.replace('%',' % ')
+        linenew = linenew.replace('=',' = ')
+        linenew = linenew.replace('>',' > ')
+        linenew = linenew.replace('<',' < ')
+        linenew = linenew.replace(',',' , ')
+        linenew = linenew.replace('.',' . ')
+        linenew = linenew.replace('[',' [ ')
+        linenew = linenew.replace(']',' ] ')
+        linenew = linenew.replace('"',' " ')
+        linenew = linenew.replace("'"," ' ")
+        linenew = linenew.split()
+        input_list_temp.append(linenew)
+    
+    return input_list_temp
+
 def read_input_text(input_name):
     # Membaca file input dan mentimpannya dalam list
     input_file = open(input_name, 'r')
     input_file_lines = input_file.readlines()
     input_file.close()
 
-    input_list_temp = []
+    input_list_temp = separate_blank_from_terminal(input_file_lines)
 
-
-    for line in input_file_lines:
-        linenew = line.replace('(',' ( ')
-        linenew = linenew.replace(')',' ) ')
-        linenew = linenew.replace(':',' : ')
-        linenew = linenew.split()
-        input_list_temp.append(linenew)
-    
     input_list = []
     for element in input_list_temp:
         for string in element:
