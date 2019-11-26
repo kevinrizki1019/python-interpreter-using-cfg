@@ -72,6 +72,36 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
             result = token_to_object(token)
             input_list.insert(idx, result)
             input_list.remove(token)
+        if token == "#":
+            idx = input_list.index(token)
+            iterate = idx
+            original_len = len(input_list)
+            while (iterate < original_len) and (input_list[idx] != 'endline'):
+                input_list.remove(input_list[idx])
+                iterate += 1
+            if input_list[idx] == "endline":
+                input_list.remove(input_list[idx])
+        
+        if token == "'":
+            idx = input_list.index(token)
+            if (input_list[idx + 1] == "'") and (input_list[idx + 2] == "'"):
+                for i in range(3):
+                    input_list.remove(input_list[idx])
+                iterate = idx
+                original_len = len(input_list)
+                while (iterate < original_len) and ((input_list[idx] != "'") or (input_list[idx + 1] != "'") or (input_list[idx + 2] != "'")):
+                    input_list.remove(input_list[idx])
+                    iterate += 1
+                if (input_list):
+                    if (input_list[idx] == "'") and (input_list[idx + 1] == "'") and (input_list[idx + 2] == "'"):
+                        for i in range(3):
+                            input_list.remove(input_list[idx])
+                        if (input_list[idx] == "endline"):
+                            input_list.remove(input_list[idx])
+                else:
+                    break
+        
+
 
     # Inisiasi input_list dan parse_table
     length = len(input_list)
