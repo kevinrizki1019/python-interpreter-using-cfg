@@ -12,36 +12,52 @@ def read_input_text(input_name):
 
     input_list_temp = []
 
+
     for line in input_file_lines:
-        linenew = line.split()
+        linenew = line.replace('(',' ( ')
+        linenew = linenew.replace(')',' ) ')
+        linenew = linenew.replace(':',' : ')
+        linenew = linenew.split()
         input_list_temp.append(linenew)
     
     input_list = []
     for element in input_list_temp:
         for string in element:
             input_list.append(string)
-    print(input_list)
 
     return input_list
 
-def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
+def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     # Pengetesan sebuah input string dengan algoritma CYK
     parse_table = None
 
-    # Inisiasi input_string dan parse_table
-    length = len(input_string)
+    # print(terminal_list)
+    for i in input_list:
+        if i not in terminal_list:
+            idx = input_list.index(i)
+            input_list.insert(idx, 'word')
+            input_list.remove(i)
+
+    # Inisiasi input_list dan parse_table
+    length = len(input_list)
     parse_table = [[[] for x in range(length - y)] for y in range(length)]
 
+    print(input_list)
     # Algoritma filling table:
     # BASIS: 
-    # Isi terlebih dahulu baris pertama sesuai terminal dari input_string yang dibaca
+    # Isi terlebih dahulu baris pertama sesuai terminal dari input_list yang dibaca
     # tiap sel diisi dengan aturan produksi yang menghasilkan terminal tersebut
-    print(input_string)
     
-    for i, word in enumerate(input_string):
+
+    for i, token in enumerate(input_list):
+        exist = False
         for rule in grammar:
-            if  rule[1] == word:    
+            if  rule[1] == token:    
+                exist = True
                 parse_table[0][i].append(rule[0])
+        if not exist:
+            parse_table[0][i].append('WORD')
+
 
     # print(parse_table)
 
@@ -73,28 +89,30 @@ def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
                         target.append(two)
 
                         for rule in grammar:
-                            if target == rule[1:3]:
+                            if (target == rule[1:3]) and (rule[0] not in parse_table[x][y]):
                                 parse_table[x][y].append(rule[0])
                 right_y += 1
                 left_x += 1
                 right_x -= 1
 
-    # for i in parse_table:
-        # print(i)
+    for i in parse_table:
+        print("Parse table:")
+        print(i)
     # for var in parse_table[length-1][0]:
     #     if var == 'S':
     #         print("accepted")
     #         break
+        
     
 
 def python_cyk_algorithm(grammar, terminal_name, input_name):
     input_list = read_input_text(input_name)
-    terminal = read_terminal(terminal_name)
-    cyk_algorithm_for_one_string(grammar, terminal, input_list[0])
+    terminal, terminal_rule = read_terminal(terminal_name)
+    cyk_algorithm_for_one_string(grammar, terminal, input_list)
 
 if __name__ == '__main__':
-    grammar = read_grammar('grammar.txt')
-    python_cyk_algorithm(grammar, 'terminal_test.txt', 'input_test.txt')
+    grammar = read_grammar('cnf.txt')
+    python_cyk_algorithm(grammar, 'terminal.txt', 'input.txt')
 
     A = ["B","A"]
     B = ["B","a"]
