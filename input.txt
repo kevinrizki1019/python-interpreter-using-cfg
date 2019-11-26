@@ -1,2 +1,1 @@
-with open('baba', 'w') as f:
-    f.write('aaaaaa')
+class MyClass:
