@@ -117,7 +117,6 @@ def convert_unit_productions(grammar):
         elif ((len(grammar[j]) == 2) and (grammar[j][1] not in terminal)):
             unit_production = grammar[j][1]
             idxs_unit_production = search_rule(grammar, unit_production)
-            print(idxs_unit_production)
             insertion_idx = j + 1
             addition = 0
             for i in idxs_unit_production:
