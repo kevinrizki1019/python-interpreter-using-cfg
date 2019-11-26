@@ -1,2 +1,2 @@
-A -> FROM
-FROM -> From
+A -> from
+FROM -> from

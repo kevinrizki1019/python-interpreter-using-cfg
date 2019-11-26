@@ -1,22 +1,26 @@
-terminalfile = open("terminal.txt", "r")
-terminaltemp = terminalfile.readlines()
-terminalfile.close()
+def read_terminal(filename):
+    # Membaca file terminal dan menyimpannya dalam list character
+    terminalfile = open(filename, "r")
+    terminaltemp = terminalfile.readlines()
+    terminalfile.close()
 
-terminal = []
-for line in terminaltemp:
-    linenew = line.replace("\n", "")
-    terminal.append(linenew)
+    terminal = []
+    for line in terminaltemp:
+        linenew = line.replace("\n", "")
+        terminal.append(linenew)
 
-terminal_rulefile = open("terminal_rule.txt", "r")
-terminal_ruletemp = terminal_rulefile.readlines()
-terminal_rulefile.close()
+    terminal_rulefile = open("terminal_rule.txt", "r")
+    terminal_ruletemp = terminal_rulefile.readlines()
+    terminal_rulefile.close()
 
-terminal_rule = []
-for line in terminal_ruletemp:
-    rule = line.replace("\n", "")
-    terminal_rule.append(rule)
+    terminal_rule = []
+    for line in terminal_ruletemp:
+        rule = line.replace("\n", "")
+        terminal_rule.append(rule)
 
-def read_cfg_file(filename):
+    return terminal, terminal_rule
+
+def read_grammar(filename):
     # Membaca file grammar dalam bentuk production rule A -> B C D 
     # dan mengubahnya menjadi bentuk ['A', 'B', 'C', 'D']
     file = open(filename, 'r')
@@ -76,6 +80,10 @@ def convert_large_rules(grammar):
 def convert_unit_productions(grammar):
     # Menangani grammar yang memiliki unit production, yaitu A -> B
     # grammar is an array consisting of lines of array
+    terminal, terminal_rule = read_terminal('terminal.txt')
+    print(terminal)
+    print(terminal_rule)
+    
     j = 0
     while j < len(grammar):
         if ((len(grammar[j]) == 2) and (grammar[j][1] in terminal_rule)):
@@ -86,6 +94,7 @@ def convert_unit_productions(grammar):
                     new_rule.append(termnonterm)
                 new_rule[0] = grammar[j][0]
                 grammar.insert(j + 1, new_rule)
+            grammar.remove(grammar[j])
             
         elif ((len(grammar[j]) == 2) and (grammar[j][1] not in terminal)):
             unit_production = grammar[j][1]
@@ -138,7 +147,7 @@ def write_to_file(grammar):
 
 
 def convert_grammar(filename):
-    grammar = read_cfg_file(filename)
+    grammar = read_grammar(filename)
     for rule in grammar:
         if (len(rule) == 0):
             grammar.remove(rule)
@@ -149,6 +158,7 @@ def convert_grammar(filename):
     #     print(rule)
     write_to_file(grammar)
 
-filename = raw_input("Enter the Context Free Grammar file to convert: ")
-convert_grammar(filename)
+if __name__ == '__main__':
+    filename = raw_input("Enter the Context Free Grammar file to convert: ")
+    convert_grammar(filename)
 
