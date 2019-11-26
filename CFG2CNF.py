@@ -68,24 +68,26 @@ def convert_large_rules(grammar):
 #       Contoh: A -> BCD diubah menjadi A -> BX dan X -> CD
 #       Dalam bentuk list: ['A', 'B','C','D'] diubah menjadi ['A','B','X'], ['X','C','D']
     addition = 1
-    for rule in grammar:
-        rule_index = grammar.index(rule) + 1
-        if (len(rule) - 1) > 2:
+    y = 0
+    while y < len(grammar):
+        rule_index = y + 1
+        if (len(grammar[y]) - 1) > 2:
             new_rule = []
-            for i in range(2, len(rule)):
-                new_rule.append(rule[i])
-            for j in range(2, len(rule)):
-                rule.pop()
+            for i in range(2, len(grammar[y])):
+                new_rule.append(grammar[y][i])
+            for j in range(2, len(grammar[y])):
+                grammar[y].pop()
             new_nonterm = new_rule[0] + "_deriv"
             for checkrule in grammar:
                 if checkrule[0] == new_nonterm:
                     new_nonterm += "{}".format(addition)
                     addition += 1
                     break
-            rule.append(new_nonterm)
+            grammar[y].append(new_nonterm)
             new_rule.insert(0, new_nonterm)
             if new_rule not in grammar:
                 grammar.insert(rule_index, new_rule)
+        y += 1
 
 def convert_unit_productions(grammar):
 # I. S. grammar berbentuk list of list Production Rule suatu CFG
@@ -101,23 +103,30 @@ def convert_unit_productions(grammar):
     while j < len(grammar):
         if ((len(grammar[j]) == 2) and (grammar[j][1] in terminal_rule)):
             idx_terminal_rule = search_rule(grammar, grammar[j][1])
+            insertion_idx = j + 1
+            addition = 0
             for i in idx_terminal_rule:
                 new_rule = []
-                for termnonterm in grammar[i]:
+                for termnonterm in grammar[i + addition]:
                     new_rule.append(termnonterm)
                 new_rule[0] = grammar[j][0]
-                grammar.insert(j + 1, new_rule)
+                grammar.insert(insertion_idx, new_rule)
+                addition += 1
             grammar.remove(grammar[j])
             
         elif ((len(grammar[j]) == 2) and (grammar[j][1] not in terminal)):
             unit_production = grammar[j][1]
             idxs_unit_production = search_rule(grammar, unit_production)
+            print(idxs_unit_production)
+            insertion_idx = j + 1
+            addition = 0
             for i in idxs_unit_production:
                 new_rule = []
-                for termnonterm in grammar[i]:
+                for termnonterm in grammar[i + addition]:
                     new_rule.append(termnonterm)
                 new_rule[0] = grammar[j][0]
-                grammar.insert(j + 1, new_rule)
+                grammar.insert(insertion_idx, new_rule)
+                addition += 1
             grammar.remove(grammar[j])
         j += 1
 
