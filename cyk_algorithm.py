@@ -19,10 +19,9 @@ def read_input_text(input_name):
 
     return input_list
 
-def cyk_algorithm(grammar, terminal_name, input_name):
+def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
+    # Pengetesan sebuah input string dengan algoritma CYK
     parse_table = None
-
-
 
     # Inisiasi input_string dan parse_table
     input_string = input_string.replace(" ","")
@@ -38,41 +37,38 @@ def cyk_algorithm(grammar, terminal_name, input_name):
             if  rule[1] == word:    
                 parse_table[0][i].append(rule[0])
 
+    # print(parse_table)
+
     # Rekurens:
     # Misal kita ingin menentukan X[i][j] pada parse_table
     # kita telah mengisi X pada baris-baris di atasnya
     # Misal:
     # [['B'] ['A','C']]
     # [[A -> B A] [S -> B C] maka diisi ['A','S']]
-
-
     # Pertama, iterasi semua cell pada table
-    for y in range(1,length):
-        for x in range(length-y):
-            for i in (parse_table[0][0]):
-                for j in (parse_table[0][1]):
-                    for rule in grammar:
-                        if len(rule) > 2:
-                            left = rule[1]
-                            right = rule[2]
-                            if left == i:
-                                if right == j:
-                                    print(rule[0])
+    for x in range(1,length):
+        for y in range(length-x):
+            target = []
+            i = x-1
+            j = y
+            while (len(target) != x+1):
+                target.append(parse_table[i][j])
+                if (i != 0):
+                    i-=1
+                else:
+                    j+=1
+            print(target)
 
-    # for i in parse_table:
-    #     print(i)
+def python_cyk_algorithm(grammar, terminal_name, input_name):
+    input_list = read_input_text(input_name)
+    terminal = read_terminal(terminal_name)
+    cyk_algorithm_for_one_string(grammar, terminal, input_list[0])
 
 if __name__ == '__main__':
-    # grammar = read_grammar('cnf.txt')
-    grammar = [
-    ["S", "A","B"],
-    ["S", "B","C"],
-    ["A", "B","A"],
-    ["A", "a"],
-    ["B", "C","C"],
-    ["B", "b"],
-    ["C", "A","B"],
-    ["C", "a"]
-    ]
-    # cyk_algorithm(grammar,'input_test.txt')
-    read_input_text('input_test.txt')
+    grammar = read_grammar('grammar.txt')
+    python_cyk_algorithm(grammar, 'terminal_test.txt', 'input_test.txt')
+
+    A = ["B","A"]
+    B = ["B","a"]
+    if A == B:
+        print("HAI")
