@@ -54,3 +54,4 @@ print
 !
 open
 write
+num
