@@ -32,6 +32,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
     # BASIS: 
     # Isi terlebih dahulu baris pertama sesuai terminal dari input_string yang dibaca
     # tiap sel diisi dengan aturan produksi yang menghasilkan terminal tersebut
+    print(input_string)
+    
     for i, word in enumerate(input_string):
         for rule in grammar:
             if  rule[1] == word:    
@@ -48,16 +50,38 @@ def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
     # Pertama, iterasi semua cell pada table
     for x in range(1,length):
         for y in range(length-x):
-            target = []
-            i = x-1
-            j = y
-            while (len(target) != x+1):
-                target.append(parse_table[i][j])
-                if (i != 0):
-                    i-=1
-                else:
-                    j+=1
-            print(target)
+
+            left_x = 0
+            right_x = x - 1
+            right_y = y + 1
+
+            while (left_x < x and right_x >= 0):
+                left = parse_table[left_x][y]
+                right = parse_table[right_x][right_y]
+                
+                left_cell = [n for n in left]
+                right_cell = [n for n in right]
+                
+                for one in left_cell:
+                    for two in right_cell:
+                        target = []
+                        target.append(one)
+                        target.append(two)
+
+                        for rule in grammar:
+                            if target == rule[1:3]:
+                                parse_table[x][y].append(rule[0])
+                right_y += 1
+                left_x += 1
+                right_x -= 1
+
+    for i in parse_table:
+        print i
+    # for var in parse_table[length-1][0]:
+    #     if var == 'S':
+    #         print("accepted")
+    #         break
+    
 
 def python_cyk_algorithm(grammar, terminal_name, input_name):
     input_list = read_input_text(input_name)
