@@ -65,6 +65,7 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     parse_table = None
 
     # print(terminal_list)
+    print(input_list)
     for token in input_list:
         if token not in terminal_list:
             idx = input_list.index(token)
@@ -95,12 +96,13 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                     if (input_list[idx] == "'") and (input_list[idx + 1] == "'") and (input_list[idx + 2] == "'"):
                         for i in range(3):
                             input_list.remove(input_list[idx])
-                        if (input_list[idx] == "endline"):
-                            input_list.remove(input_list[idx])
                 else:
                     break
-
-    input_list.remove('endline')
+    
+    for token in input_list:
+        if token == "endline":
+            input_list.remove("endline")
+    print(input_list)
         
 
 
@@ -108,7 +110,6 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     length = len(input_list)
     parse_table = [[[] for x in range(length - y)] for y in range(length)]
 
-    print(input_list)
     # Algoritma filling table:
     # BASIS: 
     # Isi terlebih dahulu baris pertama sesuai terminal dari input_list yang dibaca
@@ -122,7 +123,6 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                 exist = True
                 parse_table[0][i].append(rule[0])
 
-    print()
 
     # print(parse_table)
 
