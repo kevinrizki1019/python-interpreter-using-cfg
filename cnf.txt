@@ -159,3 +159,4 @@ GREATER -> >
 LESS -> <
 QUOTE_MARK -> '
 DOUBLE_QUOTE_MARK -> "
+ENDLINE -> endline
