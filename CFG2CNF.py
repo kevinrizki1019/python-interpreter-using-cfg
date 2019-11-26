@@ -135,7 +135,7 @@ def write_to_file(grammar):
             
 
 
-    filename = raw_input("Enter the output file name: ")
+    filename = input("Enter the output file name: ")
     file = open(filename, 'w')
     for rule in grammar:
         file.write(rule[0])
@@ -159,6 +159,6 @@ def convert_grammar(filename):
     write_to_file(grammar)
 
 if __name__ == '__main__':
-    filename = raw_input("Enter the Context Free Grammar file to convert: ")
+    filename = input("Enter the Context Free Grammar file to convert: ")
     convert_grammar(filename)
 
