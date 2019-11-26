@@ -7,8 +7,8 @@ from CFG2CNF import read_terminal
 def separate_blank_from_terminal(input_file_lines):
     input_list_temp = []
 
-    for line in input_file_lines:
-        linenew = line.replace('(',' ( ')
+    for linenew in input_file_lines:
+        linenew = linenew.replace('(',' ( ')
         linenew = linenew.replace(')',' ) ')
         linenew = linenew.replace(':',' : ')
         linenew = linenew.replace('-',' - ')
@@ -66,7 +66,16 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
 
     # print(terminal_list)
     print(input_list)
+    skip_for_string = False
     for token in input_list:
+        if skip_for_string:
+            if (token == "'") or (token == '"'):
+                skip_for_string = False
+                continue
+            idx = input_list.index(token)
+            input_list.insert(idx, "word")
+            input_list.remove(token)
+            continue
         if token not in terminal_list:
             idx = input_list.index(token)
             result = token_to_object(token)
@@ -98,6 +107,9 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                             input_list.remove(input_list[idx])
                 else:
                     break
+
+        if (token == "'") or (token == '"'):
+            skip_for_string = True
     
     while ("endline" in input_list):
         input_list.remove("endline")

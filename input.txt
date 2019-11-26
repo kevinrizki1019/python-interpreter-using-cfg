@@ -1,2 +1,2 @@
-with open('baba', 'w') as f:
+with open('output.txt', 'w') as f:
     f.write('aaaaaa')
