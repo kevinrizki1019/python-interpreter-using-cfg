@@ -159,8 +159,9 @@ def write_to_file(grammar):
             
 
 
-    filename = input("Enter the output file name: ")
-    file = open(filename, 'w')
+    # filename = input("Enter the output file name: ")
+    # file = open('filename', 'w')
+    file = open('cnf.txt', 'w')
     for rule in grammar:
         file.write(rule[0])
         file.write(" ->")
@@ -185,6 +186,7 @@ def convert_grammar(filename):
     write_to_file(grammar)
 
 if __name__ == '__main__':
-    filename = input("Enter the Context Free Grammar file to convert: ")
-    convert_grammar(filename)
+    # filename = input("Enter the Context Free Grammar file to convert: ")
+    # convert_grammar(filename)
+    convert_grammar('cfg.txt')
 

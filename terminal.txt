@@ -51,3 +51,6 @@ input
 endline
 range
 print
+!
+open
+write

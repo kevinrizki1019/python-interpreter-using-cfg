@@ -99,9 +99,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                 else:
                     break
     
-    for token in input_list:
-        if token == "endline":
-            input_list.remove("endline")
+    while ("endline" in input_list):
+        input_list.remove("endline")
     print(input_list)
         
 

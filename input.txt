@@ -1,3 +1,2 @@
-i = 1
-while (True):
-    print(i)
+with open('baba', 'w') as f:
+    f.write('aaaaaa')
