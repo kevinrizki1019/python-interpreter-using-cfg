@@ -49,7 +49,7 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     # Pengetesan sebuah input string dengan algoritma CYK
     parse_table = None
 
-    print(terminal_list)
+    # print(terminal_list)
     for i in input_list:
         if i not in terminal_list:
             idx = input_list.index(i)
@@ -114,6 +114,7 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                 right_x -= 1
 
     for i in parse_table:
+        print("Parse table:")
         print(i)
     # for var in parse_table[length-1][0]:
     #     if var == 'S':
