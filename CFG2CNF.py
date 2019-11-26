@@ -7,6 +7,15 @@ for line in terminaltemp:
     linenew = line.replace("\n", "")
     terminal.append(linenew)
 
+terminal_rulefile = open("terminal_rule.txt", "r")
+terminal_ruletemp = terminal_rulefile.readlines()
+terminal_rulefile.close()
+
+terminal_rule = []
+for line in terminal_ruletemp:
+    rule = line.replace("\n", "")
+    terminal_rule.append(rule)
+
 def read_cfg_file(filename):
     # Membaca file grammar dalam bentuk production rule A -> B C D 
     # dan mengubahnya menjadi bentuk ['A', 'B', 'C', 'D']
@@ -69,7 +78,16 @@ def convert_unit_productions(grammar):
     # grammar is an array consisting of lines of array
     j = 0
     while j < len(grammar):
-        if ((len(grammar[j]) == 2) and (grammar[j][1] not in terminal)):
+        if ((len(grammar[j]) == 2) and (grammar[j][1] in terminal_rule)):
+            idx_terminal_rule = search_rule(grammar, grammar[j][1])
+            for i in idx_terminal_rule:
+                new_rule = []
+                for termnonterm in grammar[i]:
+                    new_rule.append(termnonterm)
+                new_rule[0] = grammar[j][0]
+                grammar.insert(j + 1, new_rule)
+            
+        elif ((len(grammar[j]) == 2) and (grammar[j][1] not in terminal)):
             unit_production = grammar[j][1]
             idxs_unit_production = search_rule(grammar, unit_production)
             for i in idxs_unit_production:
@@ -77,7 +95,7 @@ def convert_unit_productions(grammar):
                 for termnonterm in grammar[i]:
                     new_rule.append(termnonterm)
                 new_rule[0] = grammar[j][0]
-                grammar.insert(j + 1, grammar[i])
+                grammar.insert(j + 1, new_rule)
             grammar.remove(grammar[j])
         j += 1
 
@@ -91,6 +109,8 @@ def search_rule(grammar, rule_nonterm):
             idx_rule.append(i)
 
     return idx_rule
+
+
 
 def write_to_file(grammar):
     # Menuliskan grammar dalam bentuk A -> B C dalam file .txt
