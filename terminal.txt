@@ -55,3 +55,4 @@ print
 open
 write
 num
+self
