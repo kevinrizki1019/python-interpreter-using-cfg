@@ -26,8 +26,9 @@ def separate_blank_from_terminal(input_file_lines):
         linenew = linenew.replace('"',' " ')
         linenew = linenew.replace("'"," ' ")
         linenew = linenew.split()
+        linenew.append('endline')
         input_list_temp.append(linenew)
-    
+        
     return input_list_temp
 
 def read_input_text(input_name):
@@ -64,6 +65,7 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     parse_table = None
 
     # print(terminal_list)
+    print(input_list)
     for token in input_list:
         if token not in terminal_list:
             idx = input_list.index(token)
