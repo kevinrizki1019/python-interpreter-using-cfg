@@ -50,6 +50,7 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     parse_table = None
 
     # print(terminal_list)
+    print(input_list)
     for i in input_list:
         if i not in terminal_list:
             idx = input_list.index(i)
