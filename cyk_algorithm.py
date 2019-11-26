@@ -171,13 +171,17 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                 left_x += 1
                 right_x -= 1
 
+    accepted = False
     for i in parse_table:
         print("Parse table:")
         print(i)
-    # for var in parse_table[length-1][0]:
-    #     if var == 'S':
-    #         print("accepted")
-    #         break
+    for var in parse_table[length-1][0]:
+        if var == 'ALGORITHM':
+            print("Accepted")
+            accepted = True
+            break
+    if not accepted:
+        print("Syntax Error")
         
     
 
@@ -188,7 +192,8 @@ def python_cyk_algorithm(grammar, terminal_name, input_name):
 
 if __name__ == '__main__':
     grammar = read_grammar('cnf.txt')
-    python_cyk_algorithm(grammar, 'terminal.txt', 'input.txt')
+    input_file = input('Enter the input file to validate: ')
+    python_cyk_algorithm(grammar, 'terminal.txt', input_file)
 
     A = ["B","A"]
     B = ["B","a"]
