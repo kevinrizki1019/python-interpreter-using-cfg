@@ -1,5 +1,9 @@
 def read_terminal(filename):
-    # Membaca file terminal dan menyimpannya dalam list character
+# Membaca file terminal dan production rule yang menyangkut terminal
+# dan menyimpannya dalam list of string
+# Fungsi mengembalikan terminal yang berisi list of string terminal dam
+# mengembalikan terminal_rule yang berisi list of string variabel yang menghasilkan terminal
+
     terminalfile = open(filename, "r")
     terminaltemp = terminalfile.readlines()
     terminalfile.close()
@@ -21,8 +25,11 @@ def read_terminal(filename):
     return terminal, terminal_rule
 
 def read_grammar(filename):
-    # Membaca file grammar dalam bentuk production rule A -> B C D 
-    # dan mengubahnya menjadi bentuk ['A', 'B', 'C', 'D']
+# Membaca file grammar, production rule tiap baris akan diubah menjadi bentuk list 
+# Contoh : Production rule berbentuk A -> B C D akan diubah menjadi ['A', 'B', 'C', 'D'].
+# Production rule yang memiliki dua bentuk atau lebih akan dipisah menjadi 2 list atau lebih 
+# Contoh: A -> B | C akan diubah menjadi bentuk ['A', 'B'] dan ['A', 'C']
+# Fungsi akan mengembalikan list of list yang berisi production rule tiap baris
     file = open(filename, 'r')
     filelines = file.readlines()
     file.close()
@@ -56,7 +63,10 @@ def read_grammar(filename):
     # return [x.replace("->", "").split() for x in filelines]
 
 def convert_large_rules(grammar):
-    # Menangani production rule yang berbentuk A -> BCD menjadi A -> BX dan X -> CD
+# I. S. grammar merupakan list of list Production Rule suatu CFG
+# F. S. Menangani production rule yang memiliki 2 variabel atau lebih
+#       Contoh: A -> BCD diubah menjadi A -> BX dan X -> CD
+#       Dalam bentuk list: ['A', 'B','C','D'] diubah menjadi ['A','B','X'], ['X','C','D']
     addition = 1
     for rule in grammar:
         rule_index = grammar.index(rule) + 1
@@ -78,11 +88,14 @@ def convert_large_rules(grammar):
                 grammar.insert(rule_index, new_rule)
 
 def convert_unit_productions(grammar):
-    # Menangani grammar yang memiliki unit production, yaitu A -> B
-    # grammar is an array consisting of lines of array
+# I. S. grammar berbentuk list of list Production Rule suatu CFG
+# F. S. Menangani grammar yang memiliki unit production
+#       Contoh: Terdapat production Rule A -> B dan B -> C D akan diubah 
+#       menjadi A -> C D di mana B merupakan suatu variabel.
+#       Dalam bentuk list: ['A', 'B'] dan ['B','C','D'] menjadi
+#       ['A','C','D'].
+    
     terminal, terminal_rule = read_terminal('terminal.txt')
-    print(terminal)
-    print(terminal_rule)
     
     j = 0
     while j < len(grammar):
@@ -110,8 +123,9 @@ def convert_unit_productions(grammar):
 
 
 def search_rule(grammar, rule_nonterm):
-    # Mengembalikan index dari rule dengan nonterm yang dicari dalam grammar
-    # Diasumsikan rule tersedia dalam grammar
+# Mengembalikan index dari rule dengan variabel yang dicari dalam grammar
+# dalam bentuk list. Contoh: [2, 5, 7].
+# Diasumsikan variabel tersedia dalam grammar
     idx_rule = []
     for i in range(0, len(grammar)):
         if grammar[i][0] == rule_nonterm:
@@ -122,7 +136,9 @@ def search_rule(grammar, rule_nonterm):
 
 
 def write_to_file(grammar):
-    # Menuliskan grammar dalam bentuk A -> B C dalam file .txt
+# I. S. grammar berbentuk list of list Production Rule suatu CFG
+# F. S. Menuliskan grammar dalam bentuk dalam file .txt
+#       List ['A','B','C'] akan ditulis sebagai A -> B C
 
     for rule in grammar:
         for line in grammar:
@@ -147,6 +163,10 @@ def write_to_file(grammar):
 
 
 def convert_grammar(filename):
+# I. S. filename merupakan suatu file berisi production rule suatu CFG
+# F. S. Menulis suatu file dengan nama ditentukan user yang berisi bentuk CNF 
+#       sesuai dengan langkah-langkah penyederhanaan CFG menjadi CNF dari 
+#       file CFG yang menjadi parameter
     grammar = read_grammar(filename)
     for rule in grammar:
         if (len(rule) == 0):
@@ -154,8 +174,6 @@ def convert_grammar(filename):
     
     convert_unit_productions(grammar)
     convert_large_rules(grammar)
-    # for rule in grammar:
-    #     print(rule)
     write_to_file(grammar)
 
 if __name__ == '__main__':

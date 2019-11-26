@@ -10,12 +10,17 @@ def read_input_text(input_name):
     input_file_lines = input_file.readlines()
     input_file.close()
 
-    input_list = []
+    input_list_temp = []
 
     for line in input_file_lines:
-        linenew = line.replace("\n","")
-        linenew = linenew.replace("    ","")
-        input_list.append(linenew)
+        linenew = line.split()
+        input_list_temp.append(linenew)
+    
+    input_list = []
+    for element in input_list_temp:
+        for string in element:
+            input_list.append(string)
+    print(input_list)
 
     return input_list
 
@@ -24,7 +29,6 @@ def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
     parse_table = None
 
     # Inisiasi input_string dan parse_table
-    input_string = input_string.replace(" ","")
     length = len(input_string)
     parse_table = [[[] for x in range(length - y)] for y in range(length)]
 
@@ -75,8 +79,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_name, input_string):
                 left_x += 1
                 right_x -= 1
 
-    for i in parse_table:
-        print i
+    # for i in parse_table:
+        # print(i)
     # for var in parse_table[length-1][0]:
     #     if var == 'S':
     #         print("accepted")
