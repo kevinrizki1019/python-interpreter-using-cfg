@@ -1,3 +1,5 @@
-def namaFungsi (A):
-    a = 5
-    return a
+from numpy import pow as p
+import hahah as huhu
+
+if (a > 1):
+    a = 5:
