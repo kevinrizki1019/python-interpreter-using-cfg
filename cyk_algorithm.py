@@ -66,10 +66,10 @@ def token_to_object(token):
     return "word"
 
 def python_cyk_algorithm(grammar, terminal_name, input_name):
-    # I. S. grammar berbentuk list of production rule, terminal_name adalah nama file yang mengandung terminal, input_name merupakan nama
-    #       file algoritma python yang akan diperiksa menggunakan CYK Algorithm
-    # F. S. Algoritma python dari input_file akan diperiksa menggunakan CYK Algorithm. Apabila memenuhi, maka akan dicetak ke layar
-    #       "Accepted". Apabila tidak memenuhi, maka akan dicetak ke layar "Syntax Error"
+# I. S. grammar berbentuk list of production rule, terminal_name adalah nama file yang mengandung terminal, input_name merupakan nama
+#       file algoritma python yang akan diperiksa menggunakan CYK Algorithm
+# F. S. Algoritma python dari input_file akan diperiksa menggunakan CYK Algorithm. Apabila memenuhi, maka akan dicetak ke layar
+#       "Accepted". Apabila tidak memenuhi, maka akan dicetak ke layar "Syntax Error"
     input_list = read_input_text(input_name)
     terminal_list, terminal_rule = read_terminal(terminal_name)
     parse_table = None
