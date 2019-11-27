@@ -1,7 +1,0 @@
-def func(var):
-    if (var > 1):
-        return a
-    elif (True):
-        return b
-    else:
-        return var

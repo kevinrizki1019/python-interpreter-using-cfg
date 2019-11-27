@@ -1,2 +1,0 @@
-def namaFungsi(A):
-    a = 1 + 2

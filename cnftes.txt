@@ -1,7 +1,0 @@
-A -> FROM | A A | B A | from
-B -> FROM WORD_deriv | from
-WORD_deriv -> WORD IMPORT_deriv
-IMPORT_deriv -> IMPORT WORD_deriv1
-WORD_deriv1 -> WORD AS_deriv
-AS_deriv -> AS A
-FROM -> from
