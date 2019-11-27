@@ -1,7 +1,5 @@
-def func(var):
-    if (var > 1):
-        return a
-    elif (True):
-        return b
-    else:
-        return var
+a = 0
+if (a != 0):
+    print(a)
+else:
+    raise ZeroDivisionError('cannot divide')

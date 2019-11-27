@@ -56,3 +56,9 @@ open
 write
 num
 self
+IOERROR
+ValueError
+ZeroDivisionError
+ImportError
+NameError
+TypeError
