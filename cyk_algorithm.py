@@ -4,7 +4,9 @@ CYK Algorithm to testing whether a string is a membership of a CFL L
 from CFG2CNF import read_grammar
 from CFG2CNF import read_terminal
 
-def separate_blank_from_terminal(input_file_lines):
+def separate_terminal(input_file_lines):
+# Fungsi akan membuat terminal-terminal yang 'menempel' dengan string lain terpisah dengan spasi
+# sehingga dapat dibaca sebagai string yang terpisah dan bukan satu kesatuan.
     input_list_temp = []
 
     for linenew in input_file_lines:
@@ -32,12 +34,13 @@ def separate_blank_from_terminal(input_file_lines):
     return input_list_temp
 
 def read_input_text(input_name):
-    # Membaca file input dan mentimpannya dalam list
+# Fungsi menerima nama file algoritma python yang akan diperiksa syntaxnya dan mengembalikan algoritma python
+# yang akan diperiksa dalam bentuk list of string
     input_file = open(input_name, 'r')
     input_file_lines = input_file.readlines()
     input_file.close()
 
-    input_list_temp = separate_blank_from_terminal(input_file_lines)
+    input_list_temp = separate_terminal(input_file_lines)
 
     input_list = []
     for element in input_list_temp:
@@ -47,7 +50,9 @@ def read_input_text(input_name):
     return input_list
 
 def token_to_object(token):
-    # Object yang dimaksud disini adalah antara num, undef, atau word
+# Fungsi menerima token yang tidak terdapat dalam terminal. Apabila berbentuk variabel yang dapat diterima oleh python, maka
+# fungsi akan mengembalikan 'word'. Apabila berbentuk variabel, maka fungsi akan mengembalikan 'num'. Apabila tidak memenuhi
+# keduanya, maka fungsi akan mengembalikan 'undef'.
     number = ['0','1','2','3','4','5','6','7','8','9']
     valid_variable_prefix = ['a','A','b','B','c','C','d','D','e','E','f','F','g','G','h','H','i','I','j','J','k','K','l','L','m','M','n','N','o','O','p','P','q','Q','r','R','s','S','t','T','u','U','v','V','w','W','x','X','y','Y','z','Z','_']
     if token[0] not in valid_variable_prefix:
@@ -60,8 +65,13 @@ def token_to_object(token):
             return "undef"
     return "word"
 
-def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
-    # Pengetesan sebuah input string dengan algoritma CYK
+def python_cyk_algorithm(grammar, terminal_name, input_name):
+    # I. S. grammar berbentuk list of production rule, terminal_name adalah nama file yang mengandung terminal, input_name merupakan nama
+    #       file algoritma python yang akan diperiksa menggunakan CYK Algorithm
+    # F. S. Algoritma python dari input_file akan diperiksa menggunakan CYK Algorithm. Apabila memenuhi, maka akan dicetak ke layar
+    #       "Accepted". Apabila tidak memenuhi, maka akan dicetak ke layar "Syntax Error"
+    input_list = read_input_text(input_name)
+    terminal_list, terminal_rule = read_terminal(terminal_name)
     parse_table = None
 
     # print(terminal_list)
@@ -107,6 +117,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                             input_list.remove(input_list[idx])
                 else:
                     break
+            else:
+                skip_for_string = True
         
         elif token == '"':
             idx = input_list.index(token)
@@ -124,9 +136,8 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                             input_list.remove(input_list[idx])
                 else:
                     break
-
-        elif (token == "'") or (token == '"'):
-            skip_for_string = True
+            else:
+                skip_for_string = True
     
     while ("endline" in input_list):
         input_list.remove("endline")
@@ -200,19 +211,9 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
     if not accepted:
         print("Syntax Error")
         
-    
 
-def python_cyk_algorithm(grammar, terminal_name, input_name):
-    input_list = read_input_text(input_name)
-    terminal, terminal_rule = read_terminal(terminal_name)
-    cyk_algorithm_for_one_string(grammar, terminal, input_list)
 
 if __name__ == '__main__':
     grammar = read_grammar('cnf.txt')
     input_file = input('Enter the input file to validate: ')
     python_cyk_algorithm(grammar, 'terminal.txt', input_file)
-
-    A = ["B","A"]
-    B = ["B","a"]
-    if A == B:
-        print("HAI")
