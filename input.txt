@@ -1,5 +1,0 @@
-a = 0
-if (a != 0):
-    print(a)
-else:
-    raise ZeroDivisionError('cannot divide')

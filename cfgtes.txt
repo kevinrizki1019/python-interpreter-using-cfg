@@ -1,3 +1,0 @@
-A -> A A | B A | B
-B -> FROM | FROM WORD IMPORT WORD AS A
-FROM -> from
