@@ -1,2 +1,3 @@
 def function1(X):
-    return X
+    var = x
+    return var
