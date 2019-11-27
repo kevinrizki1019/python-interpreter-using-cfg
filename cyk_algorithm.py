@@ -107,6 +107,23 @@ def cyk_algorithm_for_one_string(grammar, terminal_list, input_list):
                             input_list.remove(input_list[idx])
                 else:
                     break
+        
+        elif token == '"':
+            idx = input_list.index(token)
+            if (input_list[idx + 1] == '"') and (input_list[idx + 2] == '"'):
+                for i in range(3):
+                    input_list.remove(input_list[idx])
+                iterate = idx
+                original_len = len(input_list)
+                while (iterate < original_len) and ((input_list[idx] != '"') or (input_list[idx + 1] != '"') or (input_list[idx + 2] != '"')):
+                    input_list.remove(input_list[idx])
+                    iterate += 1
+                if (input_list):
+                    if (input_list[idx] == '"') and (input_list[idx + 1] == '"') and (input_list[idx + 2] == '"'):
+                        for i in range(3):
+                            input_list.remove(input_list[idx])
+                else:
+                    break
 
         elif (token == "'") or (token == '"'):
             skip_for_string = True

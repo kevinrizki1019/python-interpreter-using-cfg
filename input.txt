@@ -1,7 +1,7 @@
 def func(var):
-    '''
+    """
     dskjbcsdscscdssdd dsfsfdsfds sdsffdsfds
     dfsdfdsfdssddsfdsfsd
-    '''
+    """
 
     v1 = var
