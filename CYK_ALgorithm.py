@@ -163,8 +163,6 @@ def python_cyk_algorithm(grammar, terminal_name, input_name):
                 parse_table[0][i].append(rule[0])
 
 
-    # print(parse_table)
-
     # Rekurens:
     # Misal kita ingin menentukan X[i][j] pada parse_table
     # kita telah mengisi X pada baris-baris di atasnya
@@ -200,9 +198,9 @@ def python_cyk_algorithm(grammar, terminal_name, input_name):
                 right_x -= 1
 
     accepted = False
-    for i in parse_table:
-        print("Parse table:")
-        print(i)
+    # for i in parse_table:
+    #     print("Parse table:")
+    #     print(i)
     for var in parse_table[length-1][0]:
         if var == 'ALGORITHM':
             print("Accepted")
